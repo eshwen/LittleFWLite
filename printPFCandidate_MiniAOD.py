@@ -1,42 +1,20 @@
 #!/usr/bin/env python
 from LoadLibraries import *
+from InputParser import options
 import signal
-from optparse import OptionParser
 
 ROOT.gROOT.SetBatch(1)
 ROOT.gROOT.ProcessLine( "gErrorIgnoreLevel = 1001;")
 
-##____________________________________________________________________________||
 GLOBAL_LAST = False
 
-##____________________________________________________________________________||
-parser = OptionParser()
-parser.add_option('-i', '--inputPath', default = '/afs/cern.ch/cms/Tutorials/TWIKI_DATA/MET/TTJets_MINIAODSIM_PHYS14_numEvent5000.root', action = 'store', type = 'string')
-parser.add_option("-n", "--nevents", action = "store", default = -1, type = 'long', help = "maximum number of events to process")
-(options, args) = parser.parse_args(sys.argv)
 inputPath = options.inputPath
 
-##____________________________________________________________________________||
 def main():
 
-    printHeader()
     if getNEvents(inputPath):
         count(inputPath)
 
-##____________________________________________________________________________||
-def printHeader():
-    print    
-    #print '%10s' % 'pf.pt',
-    #print '%10s' % 'pf.px',
-    #print '%10s' % 'pf.py',
-    #print '%10s' % 'pf.phi'
-
-    #print '%10s' % 'jet.pt',
-    #print '%10s' % 'jet.eta',
-    #print '%10s' % 'jet.phi'
-    #print
-
-##____________________________________________________________________________||
 def count(inputPath):
 
     signal.signal(signal.SIGINT, handler)
@@ -76,18 +54,18 @@ def count(inputPath):
 		#print "%10.3f"%pfCan.phi(),
 		#print
 
-        print '%10s' % 'jet.pt',
-        print '%10s' % 'jet.eta',
-        print '%10s' % 'jet.phi'
-        print
+        #print '%10s' % 'jet.pt',
+        #print '%10s' % 'jet.eta',
+        #print '%10s' % 'jet.phi'
+        #print
 	event.getByLabel(("slimmedJets","","PAT"), handlePatJets)
 	pfJets = handlePatJets.product()
 	mhtVec = ROOT.TLorentzVector()
 	for jet in pfJets:
-		print "%10.3f"%jet.pt(),
-		print "%10.3f"%jet.eta(),
-		print "%10.3f"%jet.phi(),
-		print
+		#print "%10.3f"%jet.pt(),
+		#print "%10.3f"%jet.eta(),
+		#print "%10.3f"%jet.phi(),
+		#print
 		if jet.pt() < 40.: continue
 		tempVec = ROOT.TLorentzVector()
 		tempVec.SetPtEtaPhiM(jet.pt(),jet.eta(),jet.phi(),jet.mass())
@@ -97,6 +75,14 @@ def count(inputPath):
 	print " mht.phi ",mhtVec.Phi()
 	print " met.pt ",metVec.Pt(),
 	print " met.phi ",metVec.Phi()
+
+        event.getByLabel(("slimmedMETs", "", "PAT"), handlePatMETs)
+        slimmedMET = handlePatMETs.product().front()
+
+	shift = 12
+	level = 1
+	print " rawMet.pt ",slimmedMET.shiftedPt(shift,level),
+	print " rawMet.phi ",slimmedMET.shiftedPhi(shift,level)
 
 	
 
