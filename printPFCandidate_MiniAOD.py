@@ -80,7 +80,7 @@ def count(inputPath):
         slimmedMET = handlePatMETs.product().front()
 
 	shift = 12
-	level = 1
+	level = 0
 	print " rawMet.pt ",slimmedMET.shiftedPt(shift,level),
 	print " rawMet.phi ",slimmedMET.shiftedPhi(shift,level)
 
