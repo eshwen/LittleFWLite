@@ -1,5 +1,6 @@
 
 from Core import *
+import math
 
 class MiniAODAnalyzer(EventLooper):
 	def declareHandles(self):
@@ -10,6 +11,8 @@ class MiniAODAnalyzer(EventLooper):
 	def beginJob(self):
 		self.metVec = ROOT.TLorentzVector()
 		self.mhtVec = ROOT.TLorentzVector()
+		self.mht40Vec = ROOT.TLorentzVector()
+		self.rawMetVec = ROOT.TLorentzVector()
 
 	def analyze(self,event):
 		run = event.eventAuxiliary().run()
@@ -21,21 +24,33 @@ class MiniAODAnalyzer(EventLooper):
 		for pfCan in pfCans:
 			tmpVec = ROOT.TLorentzVector()
 			tmpVec.SetPtEtaPhiM(pfCan.pt(),pfCan.eta(),pfCan.phi(),pfCan.mass())
-			self.metVec += tmpVec
+			self.metVec -= tmpVec
 
 		event.getByLabel(("slimmedJets","","PAT"), self.handlePatJets)
 		pfJets = self.handlePatJets.product()
 		for jet in pfJets:
-			if jet.pt() < 40.: continue
+			#if jet.pt() < 40.: continue
 			tempVec = ROOT.TLorentzVector()
 			tempVec.SetPtEtaPhiM(jet.pt(),jet.eta(),jet.phi(),jet.mass())
-			self.mhtVec += tempVec	
+			self.mhtVec -= tempVec
+			if jet.pt() < 40.: continue
+			self.mht40Vec -= tempVec
+
+
+		event.getByLabel(("slimmedMETs","","PAT"),self.handlePatMETs)
+		slimmedMET = self.handlePatMETs.product().front()
+		self.rawMetVec.SetPtEtaPhiM(slimmedMET.shiftedPt(12,0),0,slimmedMET.shiftedPhi(12,0),0)
+
 	
 	def endJob(self):
 		print " mht.pt ",self.mhtVec.Pt(),
-		print " mht.phi ",self.mhtVec.Phi()
-		print " met.pt ",self.metVec.Pt(),
-		print " met.phi ",self.metVec.Phi()
+		print " mht.phi ",self.mhtVec.Phi(),(self.mhtVec.Phi()/math.pi*180)
+		print " mht40.pt ",self.mht40Vec.Pt(),
+		print " mht40.pt ",self.mht40Vec.Phi(),(self.mht40Vec.Phi()/math.pi*180)
+		print " met.pt from pfCan ",self.metVec.Pt(),
+		print " met.phi from pfCan ",self.metVec.Phi(),(self.metVec.Phi()/math.pi*180)
+		print " rawMet.pt ",self.rawMetVec.Pt(),
+		print " rawMet.phi ",self.rawMetVec.Phi(),(self.rawMetVec.Phi()/math.pi*180)
 
 
 	def applySelection(self,event):
