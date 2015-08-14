@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 from Core import *
-from Analyzer.MiniAODAnalyzer import MiniAODAnalyzer
+from Analyzer.METAnalyzer import METAnalyzer
+from Analyzer.JetAnalyzer import JetAnalyzer
 import ROOT
 
 ROOT.gROOT.SetBatch(1)
@@ -17,7 +18,12 @@ ls = options.lumi
 evt = options.evt
 inputPath = options.inputPath
 
-analyzer = MiniAODAnalyzer()
-analyzer.loadFiles(inputPath)
-analyzer.whichEvent(run,ls,evt)
-analyzer.loop()
+metAna = METAnalyzer()
+metAna.loadFiles(inputPath)
+metAna.whichEvent(run,ls,evt)
+#metAna.loop()
+
+jetAna = JetAnalyzer()
+jetAna.loadFiles(inputPath)
+jetAna.whichEvent(run,ls,evt)
+jetAna.loop()
