@@ -13,6 +13,7 @@ class MiniAODAnalyzer(EventLooper):
 		self.mhtVec = ROOT.TLorentzVector()
 		self.mht40Vec = ROOT.TLorentzVector()
 		self.rawMetVec = ROOT.TLorentzVector()
+		self.patMetVec = ROOT.TLorentzVector()
 
 	def analyze(self,event):
 		run = event.eventAuxiliary().run()
@@ -28,8 +29,12 @@ class MiniAODAnalyzer(EventLooper):
 
 		event.getByLabel(("slimmedJets","","PAT"), self.handlePatJets)
 		pfJets = self.handlePatJets.product()
-		for jet in pfJets:
+		print "jet variables:"
+		print "========================================="
+		for i,jet in enumerate(pfJets):
 			#if jet.pt() < 40.: continue
+			if i == 1: continue
+			print "pt: %3.1f ; eta: %3.1f ; phi: %3.1f "%(jet.pt(),jet.eta(),jet.phi())
 			tempVec = ROOT.TLorentzVector()
 			tempVec.SetPtEtaPhiM(jet.pt(),jet.eta(),jet.phi(),jet.mass())
 			self.mhtVec -= tempVec
@@ -40,17 +45,15 @@ class MiniAODAnalyzer(EventLooper):
 		event.getByLabel(("slimmedMETs","","PAT"),self.handlePatMETs)
 		slimmedMET = self.handlePatMETs.product().front()
 		self.rawMetVec.SetPtEtaPhiM(slimmedMET.shiftedPt(12,0),0,slimmedMET.shiftedPhi(12,0),0)
+		self.patMetVec.SetPtEtaPhiM(slimmedMET.pt(),slimmedMET.eta(),slimmedMET.phi(),slimmedMET.mass())
 
 	
 	def endJob(self):
-		print " mht.pt ",self.mhtVec.Pt(),
-		print " mht.phi ",self.mhtVec.Phi(),(self.mhtVec.Phi()/math.pi*180)
-		print " mht40.pt ",self.mht40Vec.Pt(),
-		print " mht40.pt ",self.mht40Vec.Phi(),(self.mht40Vec.Phi()/math.pi*180)
-		print " met.pt from pfCan ",self.metVec.Pt(),
-		print " met.phi from pfCan ",self.metVec.Phi(),(self.metVec.Phi()/math.pi*180)
-		print " rawMet.pt ",self.rawMetVec.Pt(),
-		print " rawMet.phi ",self.rawMetVec.Phi(),(self.rawMetVec.Phi()/math.pi*180)
+		print "MHT calculated from SlimmedJets: pt: %3.1f ; eta: %3.1f "%(self.mhtVec.Pt(),self.mhtVec.Phi())
+		print "MHT calculated from SlimmedJets with pt above 40 GeV: pt: %3.1f ; eta: %3.1f "%(self.mht40Vec.Pt(),self.mht40Vec.Phi())
+		print "MET calculated from packed PF Candidates: pt: %3.1f ; eta: %3.1f "%(self.metVec.Pt(),self.metVec.Phi())
+		print "PATMET in MiniAOD: pt: %3.1f ; eta: %3.1f "%(self.patMetVec.Pt(),self.patMetVec.Phi())
+		print "RawMET in MiniAOD: pt: %3.1f ; eta: %3.1f "%(self.rawMetVec.Pt(),self.rawMetVec.Phi())
 
 
 	def applySelection(self,event):
