@@ -5,11 +5,14 @@ import math
 class JetAnalyzer(EventLooper):
 	def declareHandles(self):
 		self.handlePatJets = Handle("std::vector<pat::Jet>")
+		self.handleGenJets = Handle("std::vector<reco::GenJet>")
+		# self.handlePatEles = Handle("std::vector<pat::Electron>")
+		# self.handlePatMuons = Handle("std::vector<pat::Muon>")
 
 	def beginJob(self):
 		pass
 
-	def printJetHeader(self):	
+	def printPatJetHeader(self):	
 		print "===================================================================================================================================================================="
 		print "jet variables:"
 		print "%6s" % "pt",
@@ -27,14 +30,27 @@ class JetAnalyzer(EventLooper):
 		print "%10s" % "OldJetID"
 		print "===================================================================================================================================================================="
 
+	def printGenJetHeader(self):
+		print "===================================================================================================================================================================="
+		print "GenJet variables:"
+		print "%6s" % "pt",
+		print "%6s" % "eta",
+		print "%6s" % "phi"
+		print "===================================================================================================================================================================="
+
+
 	def analyze(self,event):
 		run = event.eventAuxiliary().run()
 		lumi = event.eventAuxiliary().luminosityBlock()
 		eventId = event.eventAuxiliary().event()
 
 		event.getByLabel(("slimmedJets","","PAT"), self.handlePatJets)
+		event.getByLabel(("slimmedGenJets","","PAT"),self.handleGenJets)
+		#event.getByLabel(("slimmedElectrons","","PAT"),self.handlePatEles)
+		#event.getByLabel(("slimmedMuons","","PAT"),self.handlePatMuons)
+		
 		pfJets = self.handlePatJets.product()
-		self.printJetHeader()
+		self.printPatJetHeader()
 		for i,jet in enumerate(pfJets):
 			print "%6.1f" % jet.pt(),
 			print "%6.1f" % jet.eta(),
@@ -46,11 +62,20 @@ class JetAnalyzer(EventLooper):
 			print "%15.1f" % jet.chargedEmEnergyFraction(),
 			print "%15.1f" % jet.neutralHadronEnergyFraction(),
 			print "%5.1f" % jet.chargedMultiplicity(),
-			print "%5.f" % jet.neutralMultiplicity(),
+			print "%5.1f" % jet.neutralMultiplicity(),
 
 			print "%10.1f" % self.passJetID("LooseJetID_13TeV",jet),
 			print "%10.1f" % self.passJetID("LooseJetID_8TeV",jet)
 
+		self.printGenJetHeader()	
+		genJets = self.handleGenJets.product()
+		for i,genJet in enumerate(genJets):
+			print "%6.1f" % genJet.pt(),
+			print "%6.1f" % genJet.eta(),
+			print "%6.1F" % genJet.phi()
+		
+		# print len(self.handlePatMuons.product())
+		# print len(self.handlePatEles.product())
 				
 
 	
