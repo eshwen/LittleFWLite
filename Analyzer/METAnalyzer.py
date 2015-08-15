@@ -1,14 +1,17 @@
 
-from Core import *
+from Core.Analyzer import Analyzer
+from DataFormats.FWLite import Handle
 import math
+import ROOT
 
-class METAnalyzer(EventLooper):
+class METAnalyzer(Analyzer):
 	def declareHandles(self):
 		self.handlePatMETs = Handle("std::vector<pat::MET>")
 		self.handlePFCans = Handle("std::vector<pat::PackedCandidate>")
 		self.handlePatJets = Handle("std::vector<pat::Jet>")
 
 	def beginJob(self):
+		super(METAnalyzer,self).beginJob()
 		self.metVec = ROOT.TLorentzVector()
 		self.mhtVec = ROOT.TLorentzVector()
 		self.mht40Vec = ROOT.TLorentzVector()

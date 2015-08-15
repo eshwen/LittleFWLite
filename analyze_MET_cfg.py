@@ -1,5 +1,8 @@
 #!/usr/bin/env python
-from Core import *
+from Core.Sequence import Sequence
+from Core.EventLooper import EventLooper
+from Core.InputParser import parser
+import sys
 from Analyzer.METAnalyzer import METAnalyzer
 from Utils.DBHandler import getDBPath
 
@@ -18,6 +21,10 @@ datasetName = options.dataset
 inputFilePath = getDBPath(datasetName,run,ls)
 
 metAna = METAnalyzer()
-metAna.loadFiles(inputFilePath)
 metAna.whichEvent(run,ls,evt)
-metAna.loop()
+
+sequence = Sequence()
+sequence.load(metAna)
+
+looper = EventLooper(sequence,inputFilePath)
+looper.loop()
