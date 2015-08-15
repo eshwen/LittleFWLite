@@ -4,6 +4,7 @@ class Analyzer(object):
 		pass
 
 	def beginJob(self):
+		self.declareHandles()
 		pass
 
 	def declareHandles(self):

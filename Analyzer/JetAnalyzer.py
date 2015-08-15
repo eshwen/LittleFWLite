@@ -1,8 +1,9 @@
 
-from Core import *
+from Core.Analyzer import Analyzer
+from DataFormats.FWLite import Handle 
 import math
 
-class JetAnalyzer(EventLooper):
+class JetAnalyzer(Analyzer):
 	def declareHandles(self):
 		self.handlePatJets = Handle("std::vector<pat::Jet>")
 		self.handleGenJets = Handle("std::vector<reco::GenJet>")
@@ -10,7 +11,7 @@ class JetAnalyzer(EventLooper):
 		# self.handlePatMuons = Handle("std::vector<pat::Muon>")
 
 	def beginJob(self):
-		pass
+		super(JetAnalyzer,self).beginJob()
 
 	def printPatJetHeader(self):	
 		print "===================================================================================================================================================================="
