@@ -12,7 +12,7 @@ class Sequence(object):
 		else:
 			raise RuntimeError, "Analyzer not in Sequence."
 
-	def __getitem(self,index):
+	def __getitem__(self,index):
 		if index >= len(self.seq):
 			raise IndexError
 		else:
