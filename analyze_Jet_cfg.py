@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from Core import *
-from Analyzer.METAnalyzer import METAnalyzer
+from Analyzer.JetAnalyzer import JetAnalyzer
 from Utils.DBHandler import getDBPath
 
 parser.add_option("-r","--run", action = "store", default = 1, type = 'long',help ="run number")
@@ -17,7 +17,7 @@ datasetName = options.dataset
 
 inputFilePath = getDBPath(datasetName,run,ls)
 
-metAna = METAnalyzer()
-metAna.loadFiles(inputFilePath)
-metAna.whichEvent(run,ls,evt)
-metAna.loop()
+jetAna = JetAnalyzer()
+jetAna.loadFiles(inputFilePath)
+jetAna.whichEvent(run,ls,evt)
+jetAna.loop()
