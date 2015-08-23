@@ -17,4 +17,4 @@ class Analyzer(object):
 		pass
 
 	def applySelection(self,event):
-		pass
+		return True

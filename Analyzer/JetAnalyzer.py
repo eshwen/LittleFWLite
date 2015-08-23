@@ -83,18 +83,6 @@ class JetAnalyzer(Analyzer):
 	def endJob(self):
 		pass
 
-	def applySelection(self,event):
-		run = event.eventAuxiliary().run()
-		lumi = event.eventAuxiliary().luminosityBlock()
-		eventId = event.eventAuxiliary().event()
-
-		return (run == self.selectRun) and (lumi == self.selectLumi) and (eventId == self.selectEvent) 
-
-	def whichEvent(self,selectRun,selectLumi,selectEvent):
-		self.selectRun = selectRun
-		self.selectLumi = selectLumi
-		self.selectEvent = selectEvent
-	
 	def passJetID(self,wp,jet):
 		nhf = jet.neutralHadronEnergyFraction()
 		nemf = jet.neutralEmEnergyFraction()
