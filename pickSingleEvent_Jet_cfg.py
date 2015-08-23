@@ -18,8 +18,8 @@ ls = options.lumi
 evt = options.evt
 datasetName = options.dataset
 
-inputFilePath = getFilesFromPD(datasetName)
-# inputFilePath = getDBPath(datasetName,run,ls)
+# inputFilePath = getFilesFromPD(datasetName)
+inputFilePath = getDBPath(datasetName,run,ls)
 
 jetAna = JetAnalyzer()
 
