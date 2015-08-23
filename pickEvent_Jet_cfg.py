@@ -4,7 +4,7 @@ from Core.EventPicker import EventPicker
 from Core.InputParser import parser
 import sys
 from Analyzer.JetAnalyzer import JetAnalyzer
-from Utils.DBHandler import getDBPath
+from Utils.DBHandler import getDBPath,getFilesFromPD
 
 parser.add_option("-r","--run", action = "store", default = 1, type = 'long',help ="run number")
 parser.add_option("-l","--lumi", action = "store", default = 1, type = 'long',help="lumi section")
@@ -18,7 +18,8 @@ ls = options.lumi
 evt = options.evt
 datasetName = options.dataset
 
-inputFilePath = getDBPath(datasetName,run,ls)
+inputFilePath = getFilesFromPD(datasetName)
+# inputFilePath = getDBPath(datasetName,run,ls)
 
 jetAna = JetAnalyzer()
 
@@ -26,5 +27,5 @@ sequence = Sequence()
 sequence.load(jetAna)
 
 looper = EventPicker(sequence,inputFilePath)
-looper.whichEvent(run,ls,evt)
+looper.addEventList(run,ls,evt)
 looper.loop()
