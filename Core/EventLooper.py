@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import ROOT
-from LoadLibraries import *
+from DataFormats.FWLite import Events, Handle
 
 class EventLooper(object):
 	def __init__(self,sequence,inputPath=None):
