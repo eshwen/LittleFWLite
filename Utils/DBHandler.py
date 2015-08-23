@@ -12,7 +12,7 @@ def getDBPath(PDName,run,lumi):
 		raise RuntimeError, "getDBPath function only supports IC for the moment."
 
 def getFilesFromPD(PDName):
-	cmdList = ["das_client.py","--query","file dataset=%s"%(PDName)]
+	cmdList = ["das_client.py","--query","file dataset=%s"%(PDName),"--limit","0"]
 	process = sp.Popen(cmdList,stdout=sp.PIPE)
 	
 	if whereAmI() == "Imperial":
