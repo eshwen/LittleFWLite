@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import sys
-from Analyzer.JetAnalyzer import JetAnalyzer
+from Analyzer.JetResponse import JetResponse
 
 #____________________________________________________________________________||
 
