@@ -1,6 +1,7 @@
 
 class Analyzer(object):
 	def __init__(self):
+        self.hists = {}
 		pass
 
 	def beginJob(self):
@@ -14,6 +15,10 @@ class Analyzer(object):
 		pass
 
 	def endJob(self):
+        
+        for histName,hist in self.hists.iteritems():
+            hist.write()
+
 		pass
 
 	def applySelection(self,event):
