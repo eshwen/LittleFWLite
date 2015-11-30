@@ -1,19 +1,23 @@
 #!/usr/bin/env python
 import ROOT
-from DataFormats.FWLite import Events, Handle
+from DataFormats.FWLite import Events, Handle,ChainEvent
 
 class EventLooper(object):
 	def __init__(self,sequence,inputPath=None):
 		self.sequence = sequence		
 		if inputPath:
-			self.file = ROOT.TFile.Open(inputPath)
+            if type(inputPath) != list:
+                self.inputPath = [ inputPath ]
+        else:
+            inputPath = []
+        self.inputPath = inputPath
 
-	def loadFiles(self,inputPath):
-		self.file = ROOT.TFile.Open(inputPath)
+    def loadEvents(self,nEvents = -1):
+        self.events = ChainEvent( self.inputPath )
 
 	def loop(self,nEvents = -1):
-		self.events = Events(self.file,maxEvents=nEvents)
-		for ana in self.sequence:
+		self.loadEvents(nEvents)
+        for ana in self.sequence:
 			ana.beginJob()
 		for i,event in enumerate(self.events):
 			if (i > nEvents) and (nEvents != -1): break
