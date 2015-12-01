@@ -1,5 +1,5 @@
 
-
+from Utils.DeltaR import *
 
 def matchObjectCollection(recoObjects,matchCollection,deltaRMax = 0.5):
 
@@ -16,7 +16,7 @@ def matchObjectCollection(recoObjects,matchCollection,deltaRMax = 0.5):
         # return {recoObject:None for recoObject in recoObjects}
         return dict( zip(recoObjects, [None]*len(recoObjects)) )
 
-    allPairs = [(deltaR2 (recoObject.eta, recoObject.phi, match.eta, match.phi), (recoObject, match)) for recoObject in recoObjects for match in matchCollection]
+    allPairs = [(deltaR2 (recoObject.eta(), recoObject.phi(), match.eta(), match.phi()), (recoObject, match)) for recoObject in recoObjects for match in matchCollection]
     allPairs.sort()
 
     deltaR2Max = deltaRMax * deltaRMax
