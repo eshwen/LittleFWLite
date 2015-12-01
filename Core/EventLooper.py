@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+
 import ROOT
 from DataFormats.FWLite import Events, Handle
 
@@ -17,6 +17,7 @@ class EventLooper(object):
 
     def loop(self,nEvents = -1):
         self.loadEvents(nEvents)
+        print "Total Number of events to be run: %s"%len(self.events)
         for ana in self.sequence:
             ana.beginJob()
         for i,event in enumerate(self.events):
