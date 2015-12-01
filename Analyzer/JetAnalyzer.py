@@ -14,18 +14,6 @@ class JetAnalyzer(Analyzer):
 
     def analyze(self,event):
         pass
-    #run = event.eventAuxiliary().run()
-        #lumi = event.eventAuxiliary().luminosityBlock()
-        #eventId = event.eventAuxiliary().event()
-
-        #event.getByLabel(("slimmedJets","","PAT"), self.handlePatJets)
-        #event.getByLabel(("slimmedGenJets","","PAT"), self.handleGenJets)
-
-        #self.pfJets = map(lambda j: Jet(ROOT.pat.Jet(ROOT.edm.Ptr(ROOT.pat.Jet)(ROOT.edm.ProductID(),j,0))), self.handles['jets'].product())
-        #self.pfJets = [ x for x in self.handlePatJets.product() ]
-        #self.genJets = [ x for x in self.handleGenJets.product() ]
-
-        #self.pfJets = 
 
     def endJob(self):
         super(JetAnalyzer,self).endJob()
