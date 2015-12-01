@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 import ROOT
-from DataFormats.FWLite import Events, Handle,ChainEvent
+from DataFormats.FWLite import Events, Handle
 
 class EventLooper(object):
-	def __init__(self,sequence,inputPath=None):
-		self.sequence = sequence		
-		if inputPath:
+    def __init__(self,sequence,inputPath=None):
+        self.sequence = sequence		
+        if inputPath:
             if type(inputPath) != list:
                 self.inputPath = [ inputPath ]
         else:
@@ -13,17 +13,18 @@ class EventLooper(object):
         self.inputPath = inputPath
 
     def loadEvents(self,nEvents = -1):
-        self.events = ChainEvent( self.inputPath )
+        self.events = Events( self.inputPath )
 
-	def loop(self,nEvents = -1):
-		self.loadEvents(nEvents)
+    def loop(self,nEvents = -1):
+        self.loadEvents(nEvents)
         for ana in self.sequence:
-			ana.beginJob()
-		for i,event in enumerate(self.events):
-			if (i > nEvents) and (nEvents != -1): break
-			for ana in self.sequence:
-				if not  ana.applySelection(event): continue
-				ana.analyze(event)
-		for ana in self.sequence:
-			ana.endJob()
-	
+            ana.beginJob()
+        for i,event in enumerate(self.events):
+            if i % 10000 == 0: print "Processed events: %s"%i
+            if (i > nEvents) and (nEvents != -1): break
+            for ana in self.sequence:
+                if not  ana.applySelection(event): continue
+                ana.analyze(event)
+        for ana in self.sequence:
+            ana.endJob()
+
