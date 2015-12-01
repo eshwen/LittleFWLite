@@ -1,25 +1,25 @@
 
 class Analyzer(object):
-	def __init__(self):
+    def __init__(self):
         self.hists = {}
-		pass
+        pass
 
-	def beginJob(self):
-		self.declareHandles()
-		pass
+    def beginJob(self):
+        self.declareHandles()
+        pass
 
-	def declareHandles(self):
-		pass
+    def declareHandles(self):
+        pass
 
-	def analyze(self,event):
-		pass
+    def analyze(self,event):
+        pass
 
-	def endJob(self):
-        
+    def endJob(self):
+
         for histName,hist in self.hists.iteritems():
-            hist.write()
+            hist.Write()
 
-		pass
+        pass
 
-	def applySelection(self,event):
-		return True
+    def applySelection(self,event):
+        return True
