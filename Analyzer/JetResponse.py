@@ -16,7 +16,7 @@ class JetResponse(JetAnalyzer):
 
         self.outFile = ROOT.TFile(outFilePath,"RECREATE")
         self.hists["jetResponse"] = ROOT.TH1D("JetResponse"," ; Jet Response ;  ",50,0.5,2.)
-        self.hists["recoJetPt_vs_genJetPt"] = ROOT.TH2D("recoJetPt_vs_genJetPt"," ; RECO Jet p_{T} ; GEN Jet p_{T}  ",50,0.,100.,50,0.,100.)
+        self.hists["recoJetPt_vs_genJetPt"] = ROOT.TH2D("recoJetPt_vs_genJetPt"," ; RECO Jet p_{T} ; GEN Jet p_{T}  ",100,0.,300.,100,0.,300.)
 
         #____________________________________________________________________________||
 
