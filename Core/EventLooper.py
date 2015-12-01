@@ -17,11 +17,11 @@ class EventLooper(object):
 
     def loop(self,nEvents = -1):
         self.loadEvents(nEvents)
-        print "Total Number of events to be run: %s"%len(self.events)
+        print "Total Number of events to be run: %s"%self.events.size()
         for ana in self.sequence:
             ana.beginJob()
         for i,event in enumerate(self.events):
-            if i % 10000 == 0: print "Processed events: %s"%i
+            if (i+1) % 10000 == 0: print "Processed events: %s"%i
             if (i > nEvents) and (nEvents != -1): break
             for ana in self.sequence:
                 if not  ana.applySelection(event): continue
