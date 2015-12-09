@@ -1,5 +1,6 @@
 
 from Utils.TextFileHandler import ReadEventList
+from Utils.DBHandler import getDBPath
 
 import FWCore.ParameterSet.Config as cms
 import FWCore.ParameterSet.VarParsing as VarParsing
@@ -34,6 +35,10 @@ print inputEvtList
 
 #____________________________________________________________________________||
 
+fileList = [ getDBPath(options.dataset,run,lumi) for (run,lumi,evt) in eventList ]
+
+#____________________________________________________________________________||
+
 process = cms.Process('SKIM')
 
 #____________________________________________________________________________||
@@ -43,8 +48,7 @@ process.source = cms.Source("PoolSource")
 #____________________________________________________________________________||
 
 inputFileNames = cms.untracked.vstring()
-import InputDataset.QCDHT500To700 as qcdFiles
-inputFileNames.extend( qcdFiles.inputList )
+inputFileNames.extend( fileList )
 process.source.fileNames = inputFileNames
 
 #____________________________________________________________________________||
@@ -60,7 +64,7 @@ process.load('Configuration.StandardSequences.EndOfProcess_cff')
 
 #____________________________________________________________________________||
 
-process.out = cms.OutputModule("PoolOutputModule", fileName = cms.untracked.string("test.root") )
+process.out = cms.OutputModule("PoolOutputModule", fileName = cms.untracked.string("skimMiniAOD.root") )
 
 #____________________________________________________________________________||
 
