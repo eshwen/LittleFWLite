@@ -1,6 +1,6 @@
 
 from Utils.TextFileHandler import ReadEventList
-from Utils.DBHandler import getDBPath
+from Utils.DBHandler import getDBPath,getFilesFromPD
 
 import FWCore.ParameterSet.Config as cms
 import FWCore.ParameterSet.VarParsing as VarParsing
@@ -23,6 +23,12 @@ options.register('textFilePath',
                  VarParsing.VarParsing.varType.string,
                  "Text file for event list")
 
+options.regster('allFiles',
+                True,
+                VarParsing.VarParsing.multiplicity.singleton,
+                VarParsing.VarParsing.varType.bool,
+                "use all files from a PD")
+
 #____________________________________________________________________________||
 
 options.parseArguments()
@@ -35,7 +41,10 @@ print inputEvtList
 
 #____________________________________________________________________________||
 
-fileList = [ getDBPath(options.dataset,run,lumi) for (run,lumi,evt) in eventList ]
+if options.allFiles:
+    fileList = getFilesFromPD(options.dataset) 
+else:
+    fileList = [ getDBPath(options.dataset,run,lumi) for (run,lumi,evt) in eventList ]
 
 #____________________________________________________________________________||
 
