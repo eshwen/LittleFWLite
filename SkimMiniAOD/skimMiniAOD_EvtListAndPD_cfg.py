@@ -29,6 +29,13 @@ options.regster('allFiles',
                 VarParsing.VarParsing.varType.bool,
                 "use all files from a PD")
 
+options.register('outFile',
+                "skimMiniAOD.root",
+                VarParsing.VarParsing.multiplicity.singleton,
+                VarParsing.VarParsing.varType.string,
+                "output file path")
+
+
 #____________________________________________________________________________||
 
 options.parseArguments()
@@ -73,7 +80,7 @@ process.load('Configuration.StandardSequences.EndOfProcess_cff')
 
 #____________________________________________________________________________||
 
-process.out = cms.OutputModule("PoolOutputModule", fileName = cms.untracked.string("skimMiniAOD.root") )
+process.out = cms.OutputModule("PoolOutputModule", fileName = cms.untracked.string(options.outFile) )
 
 #____________________________________________________________________________||
 
