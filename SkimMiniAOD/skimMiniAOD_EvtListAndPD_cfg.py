@@ -23,7 +23,7 @@ options.register('textFilePath',
                  VarParsing.VarParsing.varType.string,
                  "Text file for event list")
 
-options.regster('allFiles',
+options.register('allFiles',
                 True,
                 VarParsing.VarParsing.multiplicity.singleton,
                 VarParsing.VarParsing.varType.bool,
