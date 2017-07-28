@@ -12,13 +12,13 @@ options = VarParsing.VarParsing()
 #____________________________________________________________________________||
 
 options.register('dataset',
-                 "/QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-v1/MINIAODSIM", 
+                 "/HTMHT/Run2016B-03Feb2017_ver2-v2/MINIAOD",
                  VarParsing.VarParsing.multiplicity.singleton,
                  VarParsing.VarParsing.varType.string,
                  "Primary dataset")
 
 options.register('textFilePath',
-                 "test.txt", #default value
+                 "/home/hep/ebhal/EventDisplay_MHT/2017_07_24_REV_1/HTMHT_Run2016B_03Feb2017_v2_DCSONLY_MHTtails.txt", #default value: "test.txt"
                  VarParsing.VarParsing.multiplicity.singleton,
                  VarParsing.VarParsing.varType.string,
                  "Text file for event list")
@@ -30,7 +30,7 @@ options.register('allFiles',
                 "use all files from a PD")
 
 options.register('outFile',
-                "skimMiniAOD.root",
+                "skimHTMHT_Run2016B.root",
                 VarParsing.VarParsing.multiplicity.singleton,
                 VarParsing.VarParsing.varType.string,
                 "output file path")
@@ -65,6 +65,7 @@ process.source = cms.Source("PoolSource")
 
 inputFileNames = cms.untracked.vstring()
 inputFileNames.extend( fileList )
+print inputFileNames
 process.source.fileNames = inputFileNames
 
 #____________________________________________________________________________||

@@ -16,7 +16,7 @@ def getDBPath(PDName,run,lumi,runAAA=True):
 		else:
 			raise RuntimeError, "getDBPath function only supports IC and CERN for the moment."
 
-def getFilesFromPD(PDName):
+def getFilesFromPD(PDName,runAAA=True):
 	cmdList = ["das_client.py","--query","file dataset=%s"%(PDName),"--limit","0"]
 	process = sp.Popen(cmdList,stdout=sp.PIPE)
 	
