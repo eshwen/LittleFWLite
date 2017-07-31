@@ -1,6 +1,6 @@
 
 from Utils.TextFileHandler import ReadEventList
-from Utils.DBHandler import getDBPath,getFilesFromPD
+from Utils.DBHandler import getDBPath, getFilesFromPD
 
 import FWCore.ParameterSet.Config as cms
 import FWCore.ParameterSet.VarParsing as VarParsing
@@ -30,7 +30,7 @@ options.register('allFiles',
                 "use all files from a PD")
 
 options.register('outFile',
-                "skimHTMHT_Run2016B.root",
+                "file:skimHTMHT_Run2016B.root",
                 VarParsing.VarParsing.multiplicity.singleton,
                 VarParsing.VarParsing.varType.string,
                 "output file path")
@@ -89,4 +89,3 @@ process.p = cms.Path()
 process.e = cms.EndPath(process.out)
 
 #____________________________________________________________________________||
-
